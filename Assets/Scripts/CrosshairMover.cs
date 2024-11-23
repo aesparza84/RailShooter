@@ -1,76 +1,40 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.ProBuilder;
-using UnityEngine.UIElements;
 
+/// <summary>
+/// Shoots ray from player object and converts ray wolrd space to screen space
+/// </summary>
 public class CrosshairMover : MonoBehaviour
 {
+    [Header("Raycast Origin")]
+    [SerializeField] private Transform _rayRootTransform;
+
     [Header("Crosshair Object")]
     [SerializeField] private GameObject _crosshairObject;
-    private Vector3 crosshairResetPosition;
-    private Vector3 crosshairRawPosition;
-    private Vector3 crosshairWorldPosition;
-    private Vector3 dirToCrossHairWorldPos;
 
-    //Cached main camera
     private Camera _mainCamera;
 
-    //World pos ray-hit
-    RaycastHit hit;
-    private Vector3 hitPosition;
+    //Ray for positioning crosshair
+    Ray _crosshairRay;
+    [SerializeField] private float _crosshairDistance = 3;
 
     private void Start()
     {
         _mainCamera = Camera.main;
-
-        crosshairResetPosition = new Vector3(0, 100, 0);
-        crosshairRawPosition = Vector3.zero;
-        crosshairWorldPosition= Vector3.zero;
-        dirToCrossHairWorldPos= Vector3.zero;
     }
-
-    public void SetCrosshairPoint(Vector2 v)
-    {
-        if (v != Vector2.zero)
-        {
-            Vector3 newPos = new Vector3(_crosshairObject.transform.position.x + v.x,
-                                     _crosshairObject.transform.position.y + v.y, 0);
-
-            _crosshairObject.transform.position = newPos;
-        }
-        else
-        {
-            _crosshairObject.transform.position = Vector3.Lerp(_crosshairObject.transform.position, crosshairResetPosition, 5 * Time.deltaTime);
-        }
-    }
-
     private void Update()
     {
-        ConvertCrosshairToWorld();
+        ShootCrosshairRay();
+        SetCrosshairToWorldSpace();
     }
 
-    private void ConvertCrosshairToWorld()
+    private void ShootCrosshairRay()
     {
-        /*
-        - Convert crosshair position to world space
-        - Cast ray from camera to worls space positoin
-        */
-
-        crosshairRawPosition = _crosshairObject.transform.position;
-        crosshairRawPosition.z = _mainCamera.farClipPlane;
-        crosshairWorldPosition = _mainCamera.ScreenToWorldPoint(crosshairRawPosition);
-        dirToCrossHairWorldPos = (crosshairWorldPosition - _mainCamera.transform.position).normalized;
-
-        if (Physics.Raycast(_mainCamera.transform.position, dirToCrossHairWorldPos, out hit, Mathf.Infinity))
-        {
-            hitPosition = hit.point;
-        }
+        _crosshairRay = new Ray(_rayRootTransform.position, _rayRootTransform.forward);
     }
-
-    public Vector3 GetCrosshairHitPoint()
+    private void SetCrosshairToWorldSpace()
     {
-        return hitPosition;
+        _crosshairObject.transform.position = _mainCamera.WorldToScreenPoint(_crosshairRay.GetPoint(_crosshairDistance));
     }
 }
