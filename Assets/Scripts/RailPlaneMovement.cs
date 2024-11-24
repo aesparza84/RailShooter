@@ -9,7 +9,8 @@ public class RailPlaneMovement : MonoBehaviour
     private Vector3 defaultTargetPosition;
     private Vector3 targetAxisPosition;
     private Vector3 dirToTarget;
-    [SerializeField] private float matchTargetSmoothTime = 5;
+    [SerializeField] private float horizontalSmoothTime = 5;
+    [SerializeField] private float verticalSmoothTime = 5;
 
     [Header("Plane Object")]
     [SerializeField] private Transform planeObject;
@@ -122,11 +123,11 @@ public class RailPlaneMovement : MonoBehaviour
         {
             if(currentTilt != 0)
             {
-                currentTilt = Mathf.Lerp(currentTilt, 0, 5 * Time.deltaTime);
+                currentTilt = Mathf.Lerp(currentTilt, 0, horizontalSmoothTime * Time.deltaTime);
             }
         }
 
-        currentTiltEuler.z = Mathf.LerpAngle(currentTiltEuler.z, currentTilt, 5 * Time.deltaTime);
+        currentTiltEuler.z = Mathf.LerpAngle(currentTiltEuler.z, currentTilt, horizontalSmoothTime * Time.deltaTime);
         planeObject.localEulerAngles = currentTiltEuler;
     }
 
@@ -142,11 +143,11 @@ public class RailPlaneMovement : MonoBehaviour
         {
             if (currentTilt != 0)
             {
-                currentTilt = Mathf.Lerp(currentTilt, 0, 5 * Time.deltaTime);
+                currentTilt = Mathf.Lerp(currentTilt, 0, verticalSmoothTime * Time.deltaTime);
             }
         }
 
-        currentTiltEuler.x = Mathf.LerpAngle(currentTiltEuler.x, currentTilt, 5 * Time.deltaTime);
+        currentTiltEuler.x = Mathf.LerpAngle(currentTiltEuler.x, currentTilt, verticalSmoothTime * Time.deltaTime);
         planeObject.localEulerAngles = currentTiltEuler;
     }
     private void OnDrawGizmos()
