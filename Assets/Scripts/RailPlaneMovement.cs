@@ -8,6 +8,8 @@ public class RailPlaneMovement : MonoBehaviour
     [SerializeField] private Transform trackingTarget;
     private Vector3 defaultTargetPosition;
     private Vector3 targetAxisPosition;
+    private Vector3 dirToTarget;
+    [SerializeField] private float matchTargetSmoothTime = 5;
 
     [Header("Plane Object")]
     [SerializeField] private Transform planeObject;
@@ -15,15 +17,18 @@ public class RailPlaneMovement : MonoBehaviour
 
     //Bounds for moving the aim target
     [Header("Aiming Bounds")]
-    [SerializeField] private float X_AimBoundsOffset = 5;
-    [SerializeField] private float Y_AimBoundsOffset = 3;
+    [SerializeField] private PlaneRailBounds _railBounds;
+    private float X_AimBoundsOffset;
+    private float Y_AimBoundsOffset;
     private Vector3 aimingBounds;
 
+    [Header("Plane Rotations")]
     [SerializeField] private float MatchToTargetSpeed = 5;
     [SerializeField] private float MaxHorizontalLeanAngle = 60.0f;
     [SerializeField] private float MaxVerticalLeanAngle = 30.0f;
     private float currentTilt;
     private Vector3 currentTiltEuler;
+    private Vector3 finalEuler;
 
     //Incoming input  direction
     private Vector2 inputDir;
@@ -34,7 +39,8 @@ public class RailPlaneMovement : MonoBehaviour
         defaultTargetPosition = trackingTarget.localPosition;
 
         //Define the bounds for aim hint
-
+        X_AimBoundsOffset = _railBounds.GetWidth();
+        Y_AimBoundsOffset = _railBounds.GetHeight();
 
         targetAxisPosition = trackingTarget.localPosition;
         targetAxisPosition.z = planeObject.localPosition.z;
@@ -50,14 +56,19 @@ public class RailPlaneMovement : MonoBehaviour
         //Move the tracking target on input
         TrackingTargetMovement();
 
-        //have the planeObject match the tracking target with slight delay
-
-
+        //Have the planeObject match the tracking target with slight delay
+        //Position
         MatchPlaneToAimPosition();
+
+        //Rotations
+        AimPlaneTowardsTarget();
         HorizontalInputLean();
         VerticalInputLean();
     }
 
+    /// <summary>
+    /// Moves the tracking target based on input. Limited by bounds X_AimBoundsOffset & Y_AimBoundsOffset
+    /// </summary>
     private void TrackingTargetMovement()
     {
         if (inputDir != Vector2.zero)
@@ -65,20 +76,38 @@ public class RailPlaneMovement : MonoBehaviour
             aimingBounds = inputDir;
             aimingBounds.x *= X_AimBoundsOffset;
             aimingBounds.y *= Y_AimBoundsOffset;
+            aimingBounds.z = defaultTargetPosition.z;
         }
         else
         {
             aimingBounds = defaultTargetPosition;
         }
 
+
         trackingTarget.localPosition = Vector3.Lerp(trackingTarget.localPosition, aimingBounds, MatchToTargetSpeed * Time.deltaTime);
     }
+
+    /// <summary>
+    /// Sets PlaneObject to follow the tracking target's position. Speed set by MatchToTargetSpeed
+    /// </summary>
     private void MatchPlaneToAimPosition()
     {
         targetAxisPosition = trackingTarget.localPosition;
         targetAxisPosition.z = planeObject.localPosition.z;
 
         planeObject.localPosition = Vector3.Lerp(planeObject.localPosition, targetAxisPosition, MatchToTargetSpeed * Time.deltaTime);
+    }
+
+    /// <summary>
+    /// Sets PlaneObjects rotation to face direction of tracking target
+    /// </summary>
+    private void AimPlaneTowardsTarget()
+    {
+        currentTiltEuler = planeObject.localEulerAngles;
+        dirToTarget = trackingTarget.localPosition - planeObject.localPosition;
+
+        currentTiltEuler.y = Quaternion.LookRotation(dirToTarget).eulerAngles.y; 
+        planeObject.localEulerAngles = currentTiltEuler;
     }
 
     private void HorizontalInputLean()
@@ -98,7 +127,6 @@ public class RailPlaneMovement : MonoBehaviour
         }
 
         currentTiltEuler.z = Mathf.LerpAngle(currentTiltEuler.z, currentTilt, 5 * Time.deltaTime);
-
         planeObject.localEulerAngles = currentTiltEuler;
     }
 
@@ -119,10 +147,8 @@ public class RailPlaneMovement : MonoBehaviour
         }
 
         currentTiltEuler.x = Mathf.LerpAngle(currentTiltEuler.x, currentTilt, 5 * Time.deltaTime);
-
         planeObject.localEulerAngles = currentTiltEuler;
     }
-
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.green;
