@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SocialPlatforms;
 
 public class PlaneRailBounds : MonoBehaviour
 {
@@ -15,7 +16,23 @@ public class PlaneRailBounds : MonoBehaviour
     private Vector3 TR;
     private Vector3 BR;
 
+    [SerializeField] private bool DrawBounds;
+
     private void Start()
+    {
+        Vector3 local = transform.position;
+        BL = new Vector3(local.x - Width, local.y - Height, local.z);
+        TL = new Vector3(local.x - Width, local.y + Height, local.z);
+        BR = new Vector3(local.x + Width, local.y - Height, local.z);
+        TR = new Vector3(local.x + Width, local.y + Height, local.z);
+    }
+
+    private void Update()
+    {
+        if (DrawBounds)
+            UpdateBoundsVisual();
+    }
+    private void UpdateBoundsVisual()
     {
         Vector3 local = transform.position;
         BL = new Vector3(local.x - Width, local.y - Height, local.z);
@@ -29,9 +46,14 @@ public class PlaneRailBounds : MonoBehaviour
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.green;
-        Gizmos.DrawLine(BL, TL);
-        Gizmos.DrawLine(TL, TR);
-        Gizmos.DrawLine(TR, BR);
-        Gizmos.DrawLine(BR, BL);
+
+        if (DrawBounds)
+        {
+            Gizmos.DrawLine(BL, TL);
+            Gizmos.DrawLine(TL, TR);
+            Gizmos.DrawLine(TR, BR);
+            Gizmos.DrawLine(BR, BL);
+        }
+        
     }
 }

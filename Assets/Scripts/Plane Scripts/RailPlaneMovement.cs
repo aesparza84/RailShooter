@@ -11,6 +11,11 @@ public class RailPlaneMovement : MonoBehaviour
     private Vector3 dirToTarget;
     [SerializeField] private float horizontalSmoothTime = 5;
     [SerializeField] private float verticalSmoothTime = 5;
+    [SerializeField] private float TargetMoveSpeed = 5;
+    [SerializeField] private bool RecenterOnNoInput;
+
+    [SerializeField] private float HorizontalInputMultiplier = 1;
+    [SerializeField] private float VerticalInputMultiplier = 1;
 
     [Header("Plane Object")]
     [SerializeField] private Transform planeObject;
@@ -21,6 +26,8 @@ public class RailPlaneMovement : MonoBehaviour
     [SerializeField] private PlaneRailBounds _railBounds;
     private float X_AimBoundsOffset;
     private float Y_AimBoundsOffset;
+    private float X_CurrentBounds;
+    private float Y_CurrentBounds;
     private Vector3 aimingBounds;
 
     [Header("Plane Rotations")]
@@ -30,6 +37,8 @@ public class RailPlaneMovement : MonoBehaviour
     private float currentTilt;
     private Vector3 currentTiltEuler;
     private Vector3 finalEuler;
+
+
 
     //Incoming input  direction
     private Vector2 inputDir;
@@ -75,17 +84,28 @@ public class RailPlaneMovement : MonoBehaviour
         if (inputDir != Vector2.zero)
         {
             aimingBounds = inputDir;
-            aimingBounds.x *= X_AimBoundsOffset;
-            aimingBounds.y *= Y_AimBoundsOffset;
+            //aimingBounds.x *= X_AimBoundsOffset;
+            //aimingBounds.y *= Y_AimBoundsOffset;
+
+            X_CurrentBounds += aimingBounds.x * HorizontalInputMultiplier;
+            Y_CurrentBounds += aimingBounds.y * VerticalInputMultiplier;
+
+            X_CurrentBounds = Mathf.Clamp(X_CurrentBounds, -X_AimBoundsOffset, X_AimBoundsOffset);
+            Y_CurrentBounds = Mathf.Clamp(Y_CurrentBounds, -Y_AimBoundsOffset, Y_AimBoundsOffset);
+
+            aimingBounds.x = X_CurrentBounds;
+            aimingBounds.y = Y_CurrentBounds;
+
             aimingBounds.z = defaultTargetPosition.z;
         }
         else
         {
-            aimingBounds = defaultTargetPosition;
+            if (RecenterOnNoInput)
+                aimingBounds = defaultTargetPosition;
         }
 
 
-        trackingTarget.localPosition = Vector3.Lerp(trackingTarget.localPosition, aimingBounds, MatchToTargetSpeed * Time.deltaTime);
+        trackingTarget.localPosition = Vector3.Lerp(trackingTarget.localPosition, aimingBounds, TargetMoveSpeed * Time.deltaTime);
     }
 
     /// <summary>
@@ -121,7 +141,7 @@ public class RailPlaneMovement : MonoBehaviour
         }
         else
         {
-            if(currentTilt != 0)
+            if (currentTilt != 0)
             {
                 currentTilt = Mathf.Lerp(currentTilt, 0, horizontalSmoothTime * Time.deltaTime);
             }

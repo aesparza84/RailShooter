@@ -13,8 +13,11 @@ public class InputHub : MonoBehaviour
     private InputAction MainAttack;
     private InputAction SecondaryAttack;
 
+    private bool MainFireHeld;
+
     //Input Delegates
     public Action<Vector2> OnMovement;
+    public Action OnMainFire;
     private void OnEnable()
     {
         if (_mappedInputs == null)
@@ -26,7 +29,8 @@ public class InputHub : MonoBehaviour
         AxisMovement.Enable();
 
         MainAttack = _mappedInputs.JetInputs.MainAttack;
-        MainAttack.performed += MainAttack_performed;
+        MainAttack.started += MainAttack_started;
+        MainAttack.canceled += MainAttack_canceled;
         MainAttack.Enable();
 
         SecondaryAttack = _mappedInputs.JetInputs.SecondaryAttack;
@@ -34,12 +38,16 @@ public class InputHub : MonoBehaviour
         SecondaryAttack.canceled += SecondaryAttack_canceled;
         SecondaryAttack.Enable();
     }
+
+    
+
     private void OnDisable()
     {
         AxisMovement.performed -= OnAxisMovement;
         SecondaryAttack.started -= SecondaryAttack_started;
         SecondaryAttack.canceled -= SecondaryAttack_canceled;
-        MainAttack.performed -= MainAttack_performed;
+        MainAttack.started -= MainAttack_started;
+        MainAttack.canceled -= MainAttack_canceled;
     }
     private void SecondaryAttack_canceled(InputAction.CallbackContext obj)
     {
@@ -49,9 +57,24 @@ public class InputHub : MonoBehaviour
     {
 
     }
-    private void MainAttack_performed(InputAction.CallbackContext obj)
+    private void MainAttack_started(InputAction.CallbackContext obj)
     {
+        MainFireHeld = true;
+        OnMainFire?.Invoke();
+    }
+    private void MainAttack_canceled(InputAction.CallbackContext obj)
+    {
+        MainFireHeld = false;
+    }
 
+    private void Update()
+    {
+        CheckForButtonHolds();
+    }
+    private void CheckForButtonHolds()
+    {
+        if (MainFireHeld)
+            OnMainFire?.Invoke();
     }
     private void OnAxisMovement(InputAction.CallbackContext obj)
     {
