@@ -12,12 +12,20 @@ public class MachineGun : Weapon
     [Header("Shoot Point")]
     [SerializeField] private Transform _shootPointTransform;
 
+    [Header("Crosshair")]
+    [SerializeField] private GameObject crosshairObject; 
+    private ICrosshairReader _crosshairReader;
+
+    [Header("Weapon Range")]
     [SerializeField] private float GunRange = 5;
-    
+
+    private Vector3 dirToRayEnd;
     private Ray shootray;
 
     private void Start()
     {
+        _crosshairReader = crosshairObject.GetComponent<CrosshairTargetFinder>();
+
         ApplyWeaponValues();
     }
 
@@ -48,10 +56,16 @@ public class MachineGun : Weapon
             return;
 
         currentShootTime = 0.0f;
-        shootray = new Ray(_shootPointTransform.position, _shootPointTransform.forward);
-        Debug.DrawRay(_shootPointTransform.position, _shootPointTransform.forward * GunRange, Color.green, 1.5f);
 
-        if (Physics.Raycast(shootray, out RaycastHit hit, GunRange))
+        //Get ray end point from crosshair
+        _crosshairReader.ShootOutRay();
+        Vector3 endPoint = _crosshairReader.GetRaycastPoint();
+        dirToRayEnd = (endPoint - _shootPointTransform.position);
+
+        shootray = new Ray(_shootPointTransform.position, dirToRayEnd);
+        Debug.DrawRay(_shootPointTransform.position, dirToRayEnd, Color.green, 1.5f);
+
+        if (Physics.Raycast(shootray, out RaycastHit hit))
         {
             //Call an IDamageable.Damage() interface
             if (hit.transform.TryGetComponent<IDamageable>(out IDamageable dmg))

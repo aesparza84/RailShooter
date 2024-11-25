@@ -29,5 +29,6 @@ public class HealthComponent : MonoBehaviour, IDamageable
         Debug.Log($"{gameObject.name} has died");
 
         OnDeath?.Invoke();
+        Destroy(gameObject);    
     }
 }
