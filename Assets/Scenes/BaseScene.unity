@@ -135,6 +135,7 @@ GameObject:
   - component: {fileID: 38014317}
   - component: {fileID: 38014316}
   - component: {fileID: 38014315}
+  - component: {fileID: 38014320}
   m_Layer: 6
   m_Name: Dummy Enemy (1)
   m_TagString: Untagged
@@ -235,12 +236,32 @@ Transform:
   m_GameObject: {fileID: 38014314}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -5.73, y: 7.31, z: 18.56}
+  m_LocalPosition: {x: -21.73, y: 29.62, z: 54.4}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 2125450721}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &38014320
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 38014314}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ef5f5862c98ae3e4bb780a5bd1fda777, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  missilePrefab: {fileID: 3686256306494679025, guid: 8b41a0993d4b5c74296dea604b919c29,
+    type: 3}
+  shootPoint: {fileID: 2125450721}
+  _maxAmmo: 5
+  _isInfiniteAmmo: 1
+  _shootTimer: 1
+  _damage: 0
 --- !u!1 &162449902
 GameObject:
   m_ObjectHideFlags: 0
@@ -1412,6 +1433,37 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &2125450720
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2125450721}
+  m_Layer: 6
+  m_Name: ShootPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2125450721
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2125450720}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0.31330055, y: 0.33571133, z: 0.23758894, w: 0.85597444}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 38014319}
+  m_LocalEulerAnglesHint: {x: -44.097, y: 36.368, z: 15.87}
 --- !u!114 &152067729426268006
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -1602,7 +1654,7 @@ GameObject:
   - component: {fileID: 4461992461236416541}
   m_Layer: 0
   m_Name: Player Object
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2392,6 +2444,8 @@ MonoBehaviour:
   trackingTarget: {fileID: 1318955936781837592}
   TargetMoveSpeed: 5
   RecenterOnNoInput: 0
+  RecenterVerticalOnNoInput: 1
+  RecenterHorizontalOnNoInput: 0
   HorizontalInputMultiplier: 0.2
   VerticalInputMultiplier: 0.4
   planeObject: {fileID: 1055869573138667485}

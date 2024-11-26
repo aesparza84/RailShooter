@@ -11,6 +11,8 @@ public class RailPlaneMovement : MonoBehaviour
     private Vector3 dirToTarget;
     [SerializeField] private float TargetMoveSpeed = 5;
     [SerializeField] private bool RecenterOnNoInput;
+    [SerializeField] private bool RecenterVerticalOnNoInput;
+    [SerializeField] private bool RecenterHorizontalOnNoInput;
 
     [SerializeField] private float HorizontalInputMultiplier = 1;
     [SerializeField] private float VerticalInputMultiplier = 1;
@@ -102,6 +104,12 @@ public class RailPlaneMovement : MonoBehaviour
         }
         else
         {
+            if (RecenterHorizontalOnNoInput)
+                aimingBounds.x = defaultTargetPosition.x;
+
+            if (RecenterVerticalOnNoInput)
+                aimingBounds.y = defaultTargetPosition.y;
+
             if (RecenterOnNoInput)
                 aimingBounds = defaultTargetPosition;
         }

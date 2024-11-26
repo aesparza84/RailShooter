@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class MachineGun : Weapon
 {
+    [Header("Weapon Parameters")]
     [SerializeField] private int _maxAmmo;
     [SerializeField] private bool _isInfiniteAmmo;
     [SerializeField] private float _shootTimer;
@@ -42,7 +43,7 @@ public class MachineGun : Weapon
         CooldownWeapon();
     }
 
-    private void CooldownWeapon()
+    public override void CooldownWeapon()
     {
         if (currentShootTime < ShootCooldown)
         {

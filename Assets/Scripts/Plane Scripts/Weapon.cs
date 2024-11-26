@@ -29,6 +29,12 @@ public abstract class Weapon : MonoBehaviour, IWeapon
     /// </summary>
     protected float ShootCooldown;
     protected float currentShootTime;
+
+    public virtual void CooldownWeapon()
+    {
+
+    }
+
     public virtual void Shoot() { }
 
     /// <summary>
@@ -49,5 +55,5 @@ public abstract class Weapon : MonoBehaviour, IWeapon
             return false;
 
         return true;
-    } 
+    }
 }
