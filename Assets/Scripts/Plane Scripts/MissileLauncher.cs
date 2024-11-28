@@ -71,10 +71,5 @@ public class MissileLauncher : Weapon
     private void Update()
     {
         CooldownWeapon();
-
-        if (Input.GetKeyDown(KeyCode.F))
-        {
-            Shoot();
-        }
     }
 }
