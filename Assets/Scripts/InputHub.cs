@@ -18,6 +18,7 @@ public class InputHub : MonoBehaviour
     //Input Delegates
     public Action<Vector2> OnMovement;
     public Action OnMainFire;
+    public Action OnSecondaryFire;
     private void OnEnable()
     {
         if (_mappedInputs == null)
@@ -55,7 +56,7 @@ public class InputHub : MonoBehaviour
     }
     private void SecondaryAttack_started(InputAction.CallbackContext obj)
     {
-
+        OnSecondaryFire?.Invoke();
     }
     private void MainAttack_started(InputAction.CallbackContext obj)
     {

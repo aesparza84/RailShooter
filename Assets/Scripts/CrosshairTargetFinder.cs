@@ -1,11 +1,25 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public interface ICrosshairReader
 {
+    /// <summary>
+    /// Returns the endpoint of the shoot-ray
+    /// </summary>
+    /// <returns></returns>
     public Vector3 GetRaycastPoint();
-    public void ShootOutRay();
+
+    /// <summary>
+    /// Sets shoot-ray pos/direction and shoots out
+    /// </summary>
+    public void CreateShootOutRay();
+
+    /// <summary>
+    /// Event that sends raycastHit when overlapping a target
+    /// </summary>
+    public event EventHandler<RaycastHit> OnTargetOverlapped;
 }
 public class CrosshairTargetFinder : MonoBehaviour, ICrosshairReader
 {
@@ -22,15 +36,22 @@ public class CrosshairTargetFinder : MonoBehaviour, ICrosshairReader
     //Main camera reference
     private Camera _mainCamera;
 
+    //Overlap event
+    public event EventHandler<RaycastHit> OnTargetOverlapped;
     private void Start()
     {
         _mainCamera = Camera.main;
     }
 
+    private void Update()
+    {
+        CheckForTargetOverlap();
+    }
+
     /// <summary>
-    /// Shoots ray from camera to crosshair
+    /// Creates ray from camera to crosshair
     /// </summary>
-    public void ShootOutRay()
+    public void CreateShootOutRay()
     {
         endpoint = _mainCamera.ScreenToWorldPoint(_crosshairObject.transform.position);
 
@@ -53,5 +74,13 @@ public class CrosshairTargetFinder : MonoBehaviour, ICrosshairReader
         }
 
         return crosshairShootRay.GetPoint(dirMagnitude.magnitude);
+    }
+
+    public void CheckForTargetOverlap()
+    {
+        if (Physics.Raycast(crosshairShootRay, out RaycastHit hit, dirMagnitude.magnitude, DestrutableLayer))
+        {
+            OnTargetOverlapped?.Invoke(this, hit);
+        }
     }
 }

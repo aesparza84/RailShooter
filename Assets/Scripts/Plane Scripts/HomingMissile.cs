@@ -29,6 +29,9 @@ public class HomingMissile : HomingProjectile
     //Interface
     public override bool CanContinueHoming()
     {
+        if (targetTransform == null)
+            return false;
+
         float distance = Vector3.Distance(transform.position, targetTransform.position);
         return distance > MinHomingDistance;
     }
@@ -50,8 +53,12 @@ public class HomingMissile : HomingProjectile
         transform.position = nextPos;
     }
 
-    private void OnBecameInvisible()
+    private void OnTriggerEnter(Collider collision)
     {
-        Destroy(gameObject);
+        if (collision.gameObject == targetTransform.gameObject)
+        {
+            collision.gameObject.GetComponent<IDamageable>().Damage(Damage);
+            Destroy(gameObject);
+        }
     }
 }

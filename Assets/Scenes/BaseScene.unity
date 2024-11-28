@@ -136,6 +136,7 @@ GameObject:
   - component: {fileID: 38014316}
   - component: {fileID: 38014315}
   - component: {fileID: 38014320}
+  - component: {fileID: 38014321}
   m_Layer: 6
   m_Name: Dummy Enemy (1)
   m_TagString: Untagged
@@ -261,7 +262,36 @@ MonoBehaviour:
   _maxAmmo: 5
   _isInfiniteAmmo: 1
   _shootTimer: 1
+  _speed: 0
   _damage: 0
+  _minHomingDistance: 0
+--- !u!54 &38014321
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 38014314}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 0
+  m_ImplicitTensor: 0
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &162449902
 GameObject:
   m_ObjectHideFlags: 0
@@ -856,6 +886,7 @@ GameObject:
   - component: {fileID: 698969690}
   - component: {fileID: 698969689}
   - component: {fileID: 698969688}
+  - component: {fileID: 698969693}
   m_Layer: 6
   m_Name: Dummy Enemy
   m_TagString: Untagged
@@ -962,6 +993,33 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!54 &698969693
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 698969687}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 0
+  m_ImplicitTensor: 0
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &737947063
 GameObject:
   m_ObjectHideFlags: 0
@@ -1087,6 +1145,7 @@ GameObject:
   - component: {fileID: 1295523061}
   - component: {fileID: 1295523060}
   - component: {fileID: 1295523059}
+  - component: {fileID: 1295523064}
   m_Layer: 6
   m_Name: Dummy Enemy (2)
   m_TagString: Untagged
@@ -1192,6 +1251,64 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!54 &1295523064
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1295523058}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 0
+  m_ImplicitTensor: 0
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!1 &1298529429
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1298529430}
+  m_Layer: 0
+  m_Name: MissileShootPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1298529430
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1298529429}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: -0.25, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1055869573138667485}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1605259894
 GameObject:
@@ -1494,7 +1611,7 @@ MonoBehaviour:
     m_SearchResolution: 5
 --- !u!114 &287239708316927341
 MonoBehaviour:
-  m_ObjectHideFlags: 0
+  m_ObjectHideFlags: 3
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
@@ -1576,7 +1693,7 @@ Transform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &790996048794010571
 GameObject:
-  m_ObjectHideFlags: 0
+  m_ObjectHideFlags: 3
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
@@ -1621,6 +1738,7 @@ Transform:
   m_Children:
   - {fileID: 1097911792678981355}
   - {fileID: 1540237860432217860}
+  - {fileID: 1298529430}
   m_Father: {fileID: 1757867917992448062}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &1097911792678981355
@@ -1651,7 +1769,10 @@ GameObject:
   - component: {fileID: 1055869573138667485}
   - component: {fileID: 5759963861013730231}
   - component: {fileID: 5140612365416559617}
+  - component: {fileID: 5759963861013730234}
+  - component: {fileID: 5759963861013730233}
   - component: {fileID: 4461992461236416541}
+  - component: {fileID: 5759963861013730232}
   m_Layer: 0
   m_Name: Player Object
   m_TagString: Player
@@ -1870,7 +1991,7 @@ GameObject:
   m_IsActive: 1
 --- !u!114 &2591363940361659140
 MonoBehaviour:
-  m_ObjectHideFlags: 0
+  m_ObjectHideFlags: 3
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
@@ -2232,7 +2353,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
 --- !u!114 &4323038635808734823
 MonoBehaviour:
-  m_ObjectHideFlags: 0
+  m_ObjectHideFlags: 3
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
@@ -2456,6 +2577,67 @@ MonoBehaviour:
   MatchToTargetRotSpeed: 5
   MaxHorizontalLeanAngle: 60
   MaxVerticalLeanAngle: 30
+--- !u!54 &5759963861013730232
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1200948802461304222}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 0
+  m_ImplicitTensor: 0
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!114 &5759963861013730233
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1200948802461304222}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ef5f5862c98ae3e4bb780a5bd1fda777, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  missilePrefab: {fileID: 3686256306494679025, guid: 8b41a0993d4b5c74296dea604b919c29,
+    type: 3}
+  shootPoint: {fileID: 1298529430}
+  _maxAmmo: 6
+  _isInfiniteAmmo: 1
+  _shootTimer: 0.2
+  _speed: 25
+  _damage: 10
+  _minHomingDistance: 0
+--- !u!114 &5759963861013730234
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1200948802461304222}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b1c844a5b0743d84ca493363928b6d19, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  crosshairObject: {fileID: 8166527706285907357}
 --- !u!4 &5940216361642828507
 Transform:
   m_ObjectHideFlags: 0
@@ -2502,6 +2684,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerObject: {fileID: 1200948802461304222}
+  crosshairObject: {fileID: 8166527706285907357}
 --- !u!114 &6451320138283231151
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2665,7 +2848,7 @@ Transform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &7099247225728835704
 Transform:
-  m_ObjectHideFlags: 0
+  m_ObjectHideFlags: 3
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
@@ -2868,7 +3051,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1540237860432217860}
   m_Layer: 0
-  m_Name: ShootPoint
+  m_Name: GunShootPoint
   m_TagString: Untagged
   m_Icon: {fileID: 7174288486110832750, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0

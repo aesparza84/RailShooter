@@ -14,28 +14,50 @@ public class MissileLauncher : Weapon
     [SerializeField] private int _maxAmmo;
     [SerializeField] private bool _isInfiniteAmmo;
     [SerializeField] private float _shootTimer;
+
+    [Header("Projectile Decorator")]
+    [SerializeField] private float _speed;
     [SerializeField] private int _damage;
+    [SerializeField] private int _minHomingDistance;
+
+    //Target to send missile to
+    private Transform TargetTransform;
+
     private void Start()
     {
         ApplyWeaponValues();
     }
-    private void ApplyWeaponValues()
+    protected override void ApplyWeaponValues()
     {
         MaxAmmoCount = _maxAmmo;
         InfiniteAmmo = _isInfiniteAmmo;
         ShootCooldown = _shootTimer;
         WeaponDamage = _damage;
     }
+    private void MissileDecorator(IHomingProjectile missile)
+    {
+        missile.SetDamage(_damage);
+        missile.SetSpeed(_speed);
+        missile.SetMinHomingDistance(_minHomingDistance);
+    }
+
+    public void UpdateTarget(Transform t)
+    {
+        TargetTransform = t;
+    }
     public override void Shoot()
     {
         if (!CheckIfWeaponReady())
             return;
 
-        Transform t = GameObject.FindGameObjectWithTag("Player").transform;
+
 
         //Shoot missile 
         GameObject m = Instantiate(missilePrefab, shootPoint.position, shootPoint.rotation);
-        m.GetComponent<HomingMissile>().SetTarget(t);
+        HomingMissile missile = m.GetComponent<HomingMissile>();
+
+        missile.SetTarget(TargetTransform);
+        MissileDecorator(missile);
     }
 
     public override void CooldownWeapon()

@@ -13,22 +13,35 @@ public class PlaneStateHandler : MonoBehaviour
     [SerializeField] private GameObject playerObject;
     private RailPlaneMovement _movement;
 
+    [Header("Crosshair")]
+    [SerializeField] private GameObject crosshairObject;
+    private ICrosshairReader _crosshairReader;
+
+
     //Player state
     private PlayerState _planeStateHandler;
 
-    //Players weapon
-    private IWeapon weapon;
+    //Players weapons
+    private Weapon _mainWeapon; //MachineGun : Weapon
+    private MissileLauncherController _secondaryWeapon; //MissileLauncher : Weapon
     private void Start()
     {
+        _crosshairReader = crosshairObject.GetComponent<CrosshairTargetFinder>();
+
         _inputHub = GetComponent<InputHub>();
         _inputHub.OnMovement += ReadMovement;
         _inputHub.OnMainFire += MainWeaponFire;
+        _inputHub.OnSecondaryFire += SecondaryWeaponFire;
 
         if (_movement == null)
             _movement = playerObject.GetComponent<RailPlaneMovement>();
 
-        if (weapon == null)
-            weapon = playerObject.GetComponent<Weapon>();
+        if (_mainWeapon == null)
+            _mainWeapon = playerObject.GetComponent<Weapon>();
+
+        if (_secondaryWeapon == null)
+            _secondaryWeapon = playerObject.GetComponent<MissileLauncherController>();
+
 
         _planeStateHandler = PlayerState.PLAYING;
     }
@@ -36,6 +49,7 @@ public class PlaneStateHandler : MonoBehaviour
     {
         _inputHub.OnMovement -= ReadMovement;
         _inputHub.OnMainFire -= MainWeaponFire;
+        _inputHub.OnSecondaryFire -= SecondaryWeaponFire;
     }
     private void ReadMovement(Vector2 v)
     {
@@ -45,9 +59,13 @@ public class PlaneStateHandler : MonoBehaviour
     private void MainWeaponFire()
     {
         if (_planeStateHandler == PlayerState.PLAYING)
-            weapon.Shoot();
+            _mainWeapon.Shoot();
     }
-
+    private void SecondaryWeaponFire()
+    {
+        if (_planeStateHandler == PlayerState.PLAYING)
+            _secondaryWeapon.Shoot();
+    }
 
     private void Update()
     {
@@ -59,6 +77,8 @@ public class PlaneStateHandler : MonoBehaviour
         switch (_planeStateHandler)
         {
             case PlayerState.PLAYING:
+
+                _crosshairReader.CreateShootOutRay();
 
                 //Read Inputs for all plane related things
                 _movement.MovementOnAxis();

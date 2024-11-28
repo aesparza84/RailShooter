@@ -29,15 +29,14 @@ public class MachineGun : Weapon
 
         ApplyWeaponValues();
     }
-
-    private void ApplyWeaponValues()
+    protected override void ApplyWeaponValues()
     {
         MaxAmmoCount = _maxAmmo;
         InfiniteAmmo = _isInfiniteAmmo;
         ShootCooldown = _shootTimer;
         WeaponDamage = _damage;
     }
-    
+
     private void Update()
     {
         CooldownWeapon();
@@ -59,7 +58,6 @@ public class MachineGun : Weapon
         currentShootTime = 0.0f;
 
         //Get ray end point from crosshair
-        _crosshairReader.ShootOutRay();
         Vector3 endPoint = _crosshairReader.GetRaycastPoint();
         dirToRayEnd = (endPoint - _shootPointTransform.position);
 

@@ -30,6 +30,7 @@ public abstract class Weapon : MonoBehaviour, IWeapon
     protected float ShootCooldown;
     protected float currentShootTime;
 
+    protected virtual void ApplyWeaponValues() { }
     public virtual void CooldownWeapon()
     {
 

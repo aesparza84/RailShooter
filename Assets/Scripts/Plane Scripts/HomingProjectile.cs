@@ -30,11 +30,21 @@ public abstract class HomingProjectile : MonoBehaviour, IHomingProjectile
     /// </summary>
     [SerializeField] protected float Speed;
 
+    protected virtual void ConfigureMissile() { }
     public virtual void SetTarget(Transform target) { }
     public virtual bool CanContinueHoming() {  return false; }
     public void SetDamage(int n)
     {
         Damage = n;
     }
+    public void SetSpeed(float s)
+    {
+        Speed = s;
+    }
+    public void SetMinHomingDistance(float n)
+    {
+        MinHomingDistance = n;
+    }
+
     public virtual void MoveForward() { }
 }
