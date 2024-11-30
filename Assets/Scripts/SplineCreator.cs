@@ -57,16 +57,13 @@ public class SplineCreator : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.F))
-        {
-            SplineConfigure();
-        }
+
     }
 
     /// <summary>
     /// Configures the added splines. Sets Pos & Tanget
     /// </summary>
-    private void SplineConfigure()
+    public void SplineConfigure()
     {
         //TODO: 
         // - Generate 3 spheres at a 'Start', 'Mid', and 'End' sectors
@@ -75,7 +72,7 @@ public class SplineCreator : MonoBehaviour
         // - Update the spline to configre the knots
 
         StartKnot.Position = GetSectorPoint(StartPoint, StartSectorRadius);
-        MidKnot.Position = GetSectorPoint(MidPoint, MidSectorRadius);
+        MidKnot.Position =  GetSectorPoint(MidPoint, MidSectorRadius);
         EndKnot.Position = GetSectorPoint(EndPoint, EndSectorRadius);
 
         StartKnot.TangentOut = new Unity.Mathematics.float3(0, pointerBendAmount, 1);
@@ -91,13 +88,37 @@ public class SplineCreator : MonoBehaviour
         _spline.SetTangentMode(2, TangentMode.Mirrored, BezierTangent.In);
     }
 
+    /// <summary>
+    /// Generates a point within the cirlce around a given secot point
+    /// </summary>
+    /// <param name="sectorTransform"></param>
+    /// <param name="radius"></param>
+    /// <returns></returns>
     private Vector3 GetSectorPoint(Transform sectorTransform, float radius)
     {
         Vector3 sectorPos = Random.insideUnitSphere * radius;
-
+        sectorPos += sectorTransform.localPosition;
         sectorPos.z = sectorTransform.position.z;   
 
         return sectorPos;
+    }
+
+    /// <summary>
+    /// Returns the splin container used by the path generator
+    /// </summary>
+    /// <returns></returns>
+    public SplineContainer GetSplineContainer()
+    {
+        return splineContainer;
+    }
+
+    /// <summary>
+    /// Returns the current generated spline
+    /// </summary>
+    /// <returns></returns>
+    public Spline GetCurrentSplinePath()
+    {
+        return _spline;
     }
 
 
