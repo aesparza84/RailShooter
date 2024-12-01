@@ -8,7 +8,7 @@ public class HomingMissile : HomingProjectile
 
     private void Start()
     {
-    
+        Destroy(gameObject, LifeTime);
     }
     private void OnEnable()
     {
@@ -43,10 +43,14 @@ public class HomingMissile : HomingProjectile
     {
         Vector3 nextPos = Vector3.zero;
 
-        if (CanContinueHoming())
+        if (targetTransform != null)
         {
-            transform.LookAt(targetTransform.position);
+            if (CanContinueHoming())
+            {
+                transform.LookAt(targetTransform.position);
+            }
         }
+        
 
         nextPos = transform.position + (transform.forward * Speed * Time.deltaTime);
 
@@ -55,6 +59,9 @@ public class HomingMissile : HomingProjectile
 
     private void OnTriggerEnter(Collider collision)
     {
+        if (targetTransform == null)
+            return;
+
         if (collision.gameObject == targetTransform.gameObject)
         {
             collision.gameObject.GetComponent<IDamageable>().Damage(Damage);

@@ -30,6 +30,11 @@ public abstract class HomingProjectile : MonoBehaviour, IHomingProjectile
     /// </summary>
     [SerializeField] protected float Speed;
 
+    /// <summary>
+    /// Time before projectile destroys itself
+    /// </summary>
+    [SerializeField] protected float LifeTime = 4;
+
     protected virtual void ConfigureMissile() { }
     public virtual void SetTarget(Transform target) { }
     public virtual bool CanContinueHoming() {  return false; }

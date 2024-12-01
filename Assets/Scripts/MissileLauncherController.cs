@@ -56,6 +56,9 @@ public class MissileLauncherController : MonoBehaviour, IWeapon
         {
             GameObject selectedTarget = _queuedTargets.Dequeue();
 
+            if (selectedTarget == null)
+                continue;
+
             _missileLauncher.UpdateTarget(selectedTarget.transform);
             _missileLauncher.Shoot();
         }
