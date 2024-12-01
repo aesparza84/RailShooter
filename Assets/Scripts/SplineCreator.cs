@@ -55,11 +55,6 @@ public class SplineCreator : MonoBehaviour
         _spline.Insert(2, EndKnot);
     }
 
-    private void Update()
-    {
-
-    }
-
     /// <summary>
     /// Configures the added splines. Sets Pos & Tanget
     /// </summary>
@@ -98,7 +93,7 @@ public class SplineCreator : MonoBehaviour
     {
         Vector3 sectorPos = Random.insideUnitSphere * radius;
         sectorPos += sectorTransform.localPosition;
-        sectorPos.z = sectorTransform.position.z;   
+        sectorPos.z = sectorTransform.localPosition.z;   
 
         return sectorPos;
     }

@@ -62,9 +62,9 @@ public class MachineGun : Weapon
         dirToRayEnd = (endPoint - _shootPointTransform.position);
 
         shootray = new Ray(_shootPointTransform.position, dirToRayEnd);
-        Debug.DrawRay(_shootPointTransform.position, dirToRayEnd, Color.green, 1.5f);
+        Debug.DrawRay(_shootPointTransform.position, dirToRayEnd.normalized * GunRange, Color.green, 1.5f);
 
-        if (Physics.Raycast(shootray, out RaycastHit hit))
+        if (Physics.Raycast(shootray, out RaycastHit hit, GunRange))
         {
             //Call an IDamageable.Damage() interface
             if (hit.transform.TryGetComponent<IDamageable>(out IDamageable dmg))
